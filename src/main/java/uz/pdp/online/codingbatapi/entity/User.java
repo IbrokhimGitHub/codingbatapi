@@ -10,13 +10,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Answer {
+@Entity(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String email;
+    private String password;
     @ManyToMany
-    private List<Task> tasks;
-    private String text;
-    private boolean isCorrect;
+    private List<Answer> answers;
 }

@@ -9,9 +9,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerDto {
-    private String text;
-    private boolean isCorrect;
-    private List<Integer> tasksId;
+public class UserDto {
+    private String email;
+    private String password;
+
+    private List<Integer> answersId;
 
 }

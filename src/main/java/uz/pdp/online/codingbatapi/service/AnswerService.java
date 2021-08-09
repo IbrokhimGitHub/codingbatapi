@@ -39,12 +39,12 @@ public class AnswerService {
         return new Result("answer with id = "+id+" deleted",true);
     }
     public Result add(AnswerDto answerDto){
-        Optional<Task> optionalTask = taskRepository.findById(answerDto.getTaskId());
-        if (!optionalTask.isPresent()) {
-            return new Result("cant find such task",false);
-        }
+//        taskRepository.findAllById(answerDto.getTasksId());
+//        if (!optionalTask.isPresent()) {
+//            return new Result("cant find such task",false);
+//        }
         Answer answer=new Answer();
-        answer.setTask(optionalTask.get());
+        answer.setTasks( taskRepository.findAllById(answerDto.getTasksId()));
         answer.setCorrect(answerDto.isCorrect());
         answer.setText(answerDto.getText());
         answerRepository.save(answer);
@@ -56,12 +56,13 @@ public class AnswerService {
         if (!optionalAnswer.isPresent()) {
             return new Result("cant find such answer",false);
         }
-        Optional<Task> optionalTask = taskRepository.findById(answerDto.getTaskId());
-        if (!optionalTask.isPresent()) {
-            return new Result("cant find such task",false);
-        }
+//        Optional<Task> optionalTask = taskRepository.findById(answerDto.getTaskId());
+//        if (!optionalTask.isPresent()) {
+//            return new Result("cant find such task",false);
+//        }
         Answer answer = optionalAnswer.get();
-        answer.setTask(optionalTask.get());
+//        answer.setTask(optionalTask.get());
+        answer.setTasks( taskRepository.findAllById(answerDto.getTasksId()));
         answer.setCorrect(answerDto.isCorrect());
         answer.setText(answerDto.getText());
         answerRepository.save(answer);
