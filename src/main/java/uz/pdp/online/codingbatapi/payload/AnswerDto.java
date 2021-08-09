@@ -12,6 +12,7 @@ import java.util.List;
 public class AnswerDto {
     private String text;
     private boolean isCorrect;
-    private List<Integer> tasksId;
+    private Integer taskId;
+    private Integer userId;
 
 }

@@ -17,6 +17,6 @@ public class User {
     private Integer id;
     private String email;
     private String password;
-    @ManyToMany
-    private List<Answer> answers;
+//    @ManyToMany
+//    private List<Answer> answers;
 }

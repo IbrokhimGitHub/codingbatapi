@@ -15,8 +15,10 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToMany
-    private List<Task> tasks;
+    @ManyToOne
+    private Task task;
+    @ManyToOne
+    private User user;
     private String text;
     private boolean isCorrect;
 }

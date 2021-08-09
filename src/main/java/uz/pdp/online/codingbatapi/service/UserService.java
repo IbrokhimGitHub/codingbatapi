@@ -49,7 +49,7 @@ public class UserService {
     public Result add(UserDto userDto){
         List<Answer> answerList = answerRepository.findAllById(userDto.getAnswersId());
         User user=new User();
-        user.setAnswers(answerList);
+//        user.setAnswers(answerList);
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         userRepository.save(user);
@@ -62,7 +62,7 @@ public class UserService {
         }
         List<Answer> answerList = answerRepository.findAllById(userDto.getAnswersId());
         User user = optionalUser.get();
-        user.setAnswers(answerList);
+//        user.setAnswers(answerList);
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         userRepository.save(user);

@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.pdp.online.codingbatapi.entity.Answer;
 import uz.pdp.online.codingbatapi.entity.Task;
+import uz.pdp.online.codingbatapi.entity.User;
 import uz.pdp.online.codingbatapi.payload.AnswerDto;
 import uz.pdp.online.codingbatapi.payload.AnswerResult;
 import uz.pdp.online.codingbatapi.payload.Result;
 import uz.pdp.online.codingbatapi.repository.AnswerRepository;
 import uz.pdp.online.codingbatapi.repository.TaskRepository;
+import uz.pdp.online.codingbatapi.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +21,8 @@ public class AnswerService {
     AnswerRepository answerRepository;
     @Autowired
     TaskRepository taskRepository;
+    @Autowired
+    UserRepository userRepository;
     public AnswerResult getOne(Integer id){
         Optional<Answer> optionalAnswer = answerRepository.findById(id);
         if (!optionalAnswer.isPresent()) {
@@ -39,12 +43,17 @@ public class AnswerService {
         return new Result("answer with id = "+id+" deleted",true);
     }
     public Result add(AnswerDto answerDto){
-//        taskRepository.findAllById(answerDto.getTasksId());
-//        if (!optionalTask.isPresent()) {
-//            return new Result("cant find such task",false);
-//        }
+        Optional<User> optionalUser = userRepository.findById(answerDto.getUserId());
+        if (!optionalUser.isPresent()) {
+            return new Result("cant find such user", false);
+        }
+        Optional<Task> optionalTask = taskRepository.findById(answerDto.getTaskId());
+        if (!optionalTask.isPresent()) {
+            return new Result("cant find such task",false);
+        }
         Answer answer=new Answer();
-        answer.setTasks( taskRepository.findAllById(answerDto.getTasksId()));
+        answer.setUser(optionalUser.get());
+        answer.setTask(optionalTask.get() );
         answer.setCorrect(answerDto.isCorrect());
         answer.setText(answerDto.getText());
         answerRepository.save(answer);
@@ -52,17 +61,22 @@ public class AnswerService {
 
     }
     public Result edit(Integer id,AnswerDto answerDto){
+        Optional<User> optionalUser = userRepository.findById(answerDto.getUserId());
+        if (!optionalUser.isPresent()) {
+            return new Result("cant find such user", false);
+        }
         Optional<Answer> optionalAnswer = answerRepository.findById(id);
         if (!optionalAnswer.isPresent()) {
             return new Result("cant find such answer",false);
         }
-//        Optional<Task> optionalTask = taskRepository.findById(answerDto.getTaskId());
-//        if (!optionalTask.isPresent()) {
-//            return new Result("cant find such task",false);
-//        }
+        Optional<Task> optionalTask = taskRepository.findById(answerDto.getTaskId());
+        if (!optionalTask.isPresent()) {
+            return new Result("cant find such task",false);
+        }
         Answer answer = optionalAnswer.get();
-//        answer.setTask(optionalTask.get());
-        answer.setTasks( taskRepository.findAllById(answerDto.getTasksId()));
+        answer.setTask(optionalTask.get());
+        answer.setUser(optionalUser.get());
+//        answer.setTasks( taskRepository.findAllById(answerDto.getTasksId()));
         answer.setCorrect(answerDto.isCorrect());
         answer.setText(answerDto.getText());
         answerRepository.save(answer);
